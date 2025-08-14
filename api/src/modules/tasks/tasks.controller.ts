@@ -19,20 +19,30 @@ import { DeleteTaskUseCase } from './useCases/delete-task.usecase';
 import { ListTasksUseCase } from './useCases/list-tasks.usecase';
 import { FindTaskUseCase } from './useCases/find-task.usecase';
 import { ListTasksFiltersDTO } from './dto/list-tasks-filters.dto';
+import { AICreateTaskUseCase } from './useCases/ai-create-task.usecase';
+import { AICreateTaskDTO } from './dto/ai-create-task.dto';
+import { ResetTasksUseCase } from './useCases/reset-tasks.usecase';
 
 @Controller('tasks')
 export class TasksController {
 	constructor(
 		private readonly createTaskUseCase: CreateTaskUseCase,
+		private readonly aiCreateTaskUseCase: AICreateTaskUseCase,
 		private readonly updateTaskUseCase: UpdateTaskUseCase,
 		private readonly deleteTaskUseCase: DeleteTaskUseCase,
 		private readonly findTaskUseCase: FindTaskUseCase,
 		private readonly listTasksUseCase: ListTasksUseCase,
+		private readonly resetTasksUseCase: ResetTasksUseCase,
 	) {}
 
 	@Post()
 	create(@Body() dto: CreateTaskDTO) {
 		return this.createTaskUseCase.execute(dto);
+	}
+
+	@Post('ai')
+	aiCreate(@Body() dto: AICreateTaskDTO) {
+		return this.aiCreateTaskUseCase.execute(dto);
 	}
 
 	@Patch(':id')
@@ -55,5 +65,10 @@ export class TasksController {
 	@Get()
 	list(@Query() filters: ListTasksFiltersDTO) {
 		return this.listTasksUseCase.execute(filters);
+	}
+
+	@Post('reset')
+	reset() {
+		return this.resetTasksUseCase.execute();
 	}
 }
