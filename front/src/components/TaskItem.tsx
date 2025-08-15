@@ -62,6 +62,16 @@ export const TaskItem = ({ task, onToggleComplete, onDelete, onUpdate }: TaskIte
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSave();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      handleCancel();
+    }
+  };
+
   const handleCancel = () => {
     setIsEditing(false);
     setEditTitle(task.title);
@@ -96,6 +106,7 @@ export const TaskItem = ({ task, onToggleComplete, onDelete, onUpdate }: TaskIte
               onChange={(e) => setEditTitle(e.target.value)}
               className="flex-1 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-600 text-gray-900 bg-white"
               disabled={isSubmitting}
+              onKeyDown={handleKeyDown}
             />
             <button
               onClick={handleSave}
