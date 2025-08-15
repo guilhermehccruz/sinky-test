@@ -246,3 +246,4 @@ pnpm start
 ## 📄 Licença
 
 Este projeto foi desenvolvido como parte de um teste técnico para avaliação de habilidades Full-Stack.
+
