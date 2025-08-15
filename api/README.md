@@ -1,98 +1,233 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Smart To-Do List API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend da aplicação Smart To-Do List desenvolvido com NestJS, TypeScript e Prisma.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Tecnologias
 
-## Description
+- **NestJS** - Framework Node.js para aplicações escaláveis
+- **TypeScript** - Tipagem estática
+- **Prisma** - ORM moderno para banco de dados
+- **SQLite** - Banco de dados local
+- **OpenAI** - Integração com IA para geração de tarefas
+- **Joi** - Validação de variáveis de ambiente
+- **Class Validator** - Validação de DTOs
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📋 Funcionalidades
 
-## Project setup
+- ✅ CRUD completo de tarefas
+- 🤖 Geração automática de tarefas com IA
+- 🔄 Reset de todas as tarefas
+- 📊 Persistência em banco SQLite
+- 🔒 Validação de dados
+- 🌍 CORS configurado para frontend
 
+## 🛠️ Pré-requisitos
+
+- Node.js 18+
+- pnpm (recomendado) ou npm
+
+## ⚙️ Instalação
+
+1. **Instalar dependências:**
+   ```bash
+   pnpm install
+   ```
+
+2. **Configurar variáveis de ambiente:**
+   Crie um arquivo `.env` na raiz do projeto:
+   ```env
+   DATABASE_URL="file:./dev.db"
+   OPEN_ROUTER_API_KEY="sua-chave-do-open-router"
+   PORT=3001
+   ```
+
+3. **Configurar banco de dados:**
+   ```bash
+   # Gerar cliente Prisma
+   pnpm prisma generate
+
+   # Executar migrações
+   pnpm prisma migrate dev
+
+   # (Opcional) Visualizar banco
+   pnpm prisma studio
+   ```
+
+## 🚀 Como Executar
+
+### Desenvolvimento
 ```bash
-$ pnpm install
+# Executar em modo desenvolvimento com hot reload
+pnpm start:dev
 ```
 
-## Compile and run the project
-
+### Produção
 ```bash
-# development
-$ pnpm run start
+# Build da aplicação
+pnpm build
 
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+# Executar build de produção
+pnpm start:prod
 ```
 
-## Run tests
-
+### Debug
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+# Executar em modo debug
+pnpm start:debug
 ```
 
-## Deployment
+## 📡 Endpoints da API
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Tarefas
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+#### `GET /tasks`
+Lista todas as tarefas.
 
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+**Resposta:**
+```json
+[
+  {
+    "id": "uuid",
+    "title": "Título da tarefa",
+    "isCompleted": false,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### `POST /tasks`
+Cria uma nova tarefa.
 
-## Resources
+**Body:**
+```json
+{
+  "title": "Título da nova tarefa"
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+#### `PATCH /tasks/:id`
+Atualiza uma tarefa existente.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+**Body:**
+```json
+{
+  "title": "Novo título",
+  "isCompleted": true
+}
+```
 
-## Support
+#### `DELETE /tasks/:id`
+Remove uma tarefa específica.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### `DELETE /tasks/reset`
+Remove todas as tarefas do banco.
 
-## Stay in touch
+### IA
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### `POST /tasks/ai`
+Gera tarefas automaticamente usando IA.
 
-## License
+**Body:**
+```json
+{
+  "prompt": "Planejar uma viagem para Paris"
+}
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Resposta:**
+```json
+[
+  {
+    "id": "uuid",
+    "title": "Pesquisar passagens aéreas",
+    "isCompleted": false,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]
+```
+
+## 🗄️ Estrutura do Banco
+
+### Tabela `Task`
+```sql
+CREATE TABLE Task (
+  id          TEXT PRIMARY KEY,
+  title       TEXT NOT NULL,
+  isCompleted BOOLEAN DEFAULT false,
+  createdAt   DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updatedAt   DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── main.ts                 # Ponto de entrada da aplicação
+├── app.module.ts           # Módulo principal
+├── modules/                # Módulos da aplicação
+│   └── tasks/             # Módulo de tarefas
+│       ├── tasks.controller.ts
+│       ├── tasks.module.ts
+│       ├── dto/           # Data Transfer Objects
+│       └── useCases/      # Casos de uso
+└── shared/                # Recursos compartilhados
+    ├── config/           # Configurações
+    └── database/         # Configuração do banco
+```
+
+## 🔧 Scripts Disponíveis
+
+- `pnpm start:dev` - Executar em desenvolvimento
+- `pnpm build` - Build para produção
+- `pnpm start:prod` - Executar build de produção
+- `pnpm lint` - Executar linter
+- `pnpm format` - Formatar código
+
+## 🧪 Testes
+
+```bash
+# Executar testes unitários
+pnpm test
+
+# Executar testes em modo watch
+pnpm test:watch
+
+# Executar testes end-to-end
+pnpm test:e2e
+
+# Cobertura de testes
+pnpm test:cov
+```
+
+## 🔍 Debug
+
+```bash
+# Executar em modo debug
+pnpm start:debug
+
+# Debug de testes
+pnpm test:debug
+```
+
+## 🌐 CORS
+
+A API está configurada para aceitar requisições do frontend em `http://localhost:3000`.
+
+## 📝 Variáveis de Ambiente
+
+| Variável | Descrição | Padrão |
+|----------|-----------|--------|
+| `DATABASE_URL` | URL do banco SQLite | `file:./dev.db` |
+| `OPENAI_API_KEY` | Chave da API OpenAI | - |
+| `PORT` | Porta da aplicação | `3001` |
+
+## 🔗 Integração com Frontend
+
+A API está configurada para trabalhar com o frontend Next.js na porta 3000. Certifique-se de que o frontend está configurado para apontar para `http://localhost:3001`.
+
+## 📄 Licença
+
+Este projeto é parte do teste técnico Smart To-Do List.
