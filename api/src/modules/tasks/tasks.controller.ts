@@ -51,6 +51,11 @@ export class TasksController {
 		return this.updateTaskUseCase.execute(id, dto);
 	}
 
+	@Delete('reset')
+	reset() {
+		return this.resetTasksUseCase.execute();
+	}
+
 	@Delete(':id')
 	@HttpCode(HttpStatus.NO_CONTENT)
 	delete(@Param('id', new ParseUUIDPipe()) id: string) {
@@ -65,10 +70,5 @@ export class TasksController {
 	@Get()
 	list(@Query() filters: ListTasksFiltersDTO) {
 		return this.listTasksUseCase.execute(filters);
-	}
-
-	@Post('reset')
-	reset() {
-		return this.resetTasksUseCase.execute();
 	}
 }
